@@ -2,12 +2,6 @@ import os, random, string
 from pytube import YouTube
 from dotenv import load_dotenv
 from pyrogram import Client, types, filters
-from pyrogram.handlers import message_handler
-
-series1 = list(string.ascii_lowercase)
-series2 = list(string.ascii_uppercase)
-series3 = list(string.digits)
-series4 = list(string.punctuation)
 
 load_dotenv(dotenv_path='.env')
 
