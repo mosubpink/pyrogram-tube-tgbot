@@ -1,11 +1,6 @@
-import os, random, string
+import os
 from pytube import YouTube
 from pyrogram import Client, types, filters
-
-series1 = list(string.ascii_lowercase)
-series2 = list(string.ascii_uppercase)
-series3 = list(string.digits)
-series4 = list(string.punctuation)
 
 genrated_token: str = os.getenv('BotToken')
 api :str = os.getenv('ApiId')
@@ -34,46 +29,6 @@ async def YouTubeCommand(bot, message: types.Message):
             await bot.send_message(message.chat.id, text=f"An error occurred: {str(Error)}")
     else:
         await bot.send_message(message.chat.id, text="Please send a valid YouTube video URL.")
-
-
-@bot.on_message(filters.command('password'))
-@bot.on_message(filters.text)
-async def password_generate_start(bot, message):
-    await bot.send_message(message.chat.id, text="Password length should start from 6. Please enter the length:")
-
-
-async def password_generate(bot, message):
-    password_length: int = message.text
-
-    if not password_length.isdigit():
-        await bot.send_message(message.chat.id, text="Please enter a valid number for the password length.")
-
-    elif password_length < 6:
-        await bot.send_message(message.chat.id, text="The length of the password should be at least 6. Please try again.")
-
-    random.shuffle(series1)
-    random.shuffle(series2)
-    random.shuffle(series3)
-    random.shuffle(series4)
-
-    part1 = round((password_length * 30)/100)
-    part2 = round((password_length * 20)/100)
-
-    password = []
-    for character in range(part1):
-        password.append(series1[character])
-        password.append(series2[character])
-    for character in range(part2):
-        password.append(series3[character])
-        password.append(series4[character])
-
-    random.shuffle(password)
-    password = "".join(password[0:])
-
-    await bot.send_message(message.chat.id, text=password)
-
-    register = message_handler(password_generate)
-    await bot.add_handler(register)
 
 print("runnig...")
 
