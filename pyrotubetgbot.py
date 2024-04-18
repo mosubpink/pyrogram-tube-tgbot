@@ -1,7 +1,10 @@
 import os
+
+from environs import Env
 from pytube import YouTube
 from pyrogram import Client, types, filters
 
+Env().read_env()
 genrated_token: str = os.getenv('BotToken')
 api :str = os.getenv('ApiId')
 bot = Client("pyrotube", bot_token=genrated_token,api_id=api)
