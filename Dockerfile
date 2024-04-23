@@ -5,6 +5,6 @@ WORKDIR /bot
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY . /bot
+COPY . .
 
 CMD ["python", "pyrotubetgbot.py"]
