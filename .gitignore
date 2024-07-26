@@ -1,5 +1,6 @@
 .vscode
 env
 .env
+venv
 pyrotube.session
 pyrotube.session-journal
