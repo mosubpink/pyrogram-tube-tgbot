@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD ["python", "pyrotubetgbot.py"]
+CMD ["python", "src/main.py"]
