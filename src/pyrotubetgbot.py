@@ -1,40 +1,35 @@
-import os
+import logging
 
-from environs import Env
-from pytube import YouTube
-from pyrogram import Client, types, filters
-
-
-Env().read_env()
-genrated_token: str = os.getenv('BotToken')
-api :str = os.getenv('ApiId')
-bot = Client("pyrotube", bot_token=genrated_token,api_id=api)
-
-@bot.on_message(filters.command(['Start']))
-async def Welcome(bot, message: types.Message):
-    user_name = message.from_user.first_name
-
-    await bot.send_message(message.chat.id, text="I,M your Youtube downloader" f"{user_name}")
-
-@bot.on_message(filters.command(['downlaod']))
-@bot.on_message(filters.text)
-async def YouTubeCommand(bot, message: types.Message):
-    link = message.text
-    if 'youtube.com' in link:
-        try:
-            youtube = YouTube(link)
-            stream = youtube.streams.get_highest_resolution()
-            stream.download()
-
-            await bot.send_video(message.chat.id, video=open(stream.default_filename, 'rb'), text="Here's the video you requested!")
-            os.remove(stream.default_filename)
-
-        except Exception as Error:
-            await bot.send_message(message.chat.id, text=f"An error occurred: {str(Error)}")
-    else:
-        await bot.send_message(message.chat.id, text="Please send a valid YouTube video URL.")
+from environs import env
+from telegram import Update
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    ContextTypes,
+    MessageHandler,
+    filters,
+)
 
 
-print("runnig...")
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
 
-bot.run()
+env.read_env()
+api_id  = env('id')
+api_hash = env('hash')
+token = env('token')
+
+
+async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(f'Hello {update.effective_user.first_name}')
+
+
+bot = ApplicationBuilder().token(token).build()
+
+bot.add_handler(CommandHandler("start", hello))
+
+
+bot.run_polling()
+
