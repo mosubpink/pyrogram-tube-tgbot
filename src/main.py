@@ -25,6 +25,8 @@ token = env('token')
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(f'Hello {update.effective_user.first_name}')
 
+async def yt_download(update: Update, context: ContextTypes.DEFAULT_TYPE)-> None:
+    pass
 
 bot = ApplicationBuilder().token(token).build()
 
